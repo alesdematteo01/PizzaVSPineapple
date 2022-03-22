@@ -14,6 +14,6 @@ class PizzaVSAnanassoScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        <#code#>
+        
     }
 }
