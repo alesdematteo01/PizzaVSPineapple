@@ -27,23 +27,11 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     let tagliere1: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     let tagliere2: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     let tagliere3: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
-
+    
     
     override func sceneDidLoad() {
-        self.setUpGame()
+        //        self.setUpGame()
         self.setUpPhysicsWorld()
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        
-    }
-}
-
-//MARK: - Game Scene Set Up
-extension PizzaVSAnanassoScene {
-    private func setUpGame() {
-        self.gameLogic.setUpGame()
-        
         self.setBackground()
         
         let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
@@ -53,6 +41,26 @@ extension PizzaVSAnanassoScene {
         self.setTaglieri()
         
     }
+    
+    override func update(_ currentTime: TimeInterval) {
+        
+    }
+}
+
+//MARK: - Game Scene Set Up
+extension PizzaVSAnanassoScene {
+    //    private func setUpGame() {
+    //        self.gameLogic.setUpGame()
+    //
+    //        self.setBackground()
+    //
+    //        let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
+    //        self.createPlayer(at: playerInitialPosition)
+    //        generateAnanas()
+    //        self.createEnemy()
+    //        self.setTaglieri()
+    //
+    //    }
     
     private func setUpPhysicsWorld() {
         physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
@@ -98,12 +106,12 @@ extension PizzaVSAnanassoScene {
         
         tagliere3.physicsBody = SKPhysicsBody(texture: tagliere3.texture!, size: tagliere3.size)
         tagliere3.physicsBody?.affectedByGravity = false
-
+        
         addChild(tagliere0)
         addChild(tagliere1)
         addChild(tagliere2)
         addChild(tagliere3)
-
+        
     }
     
     private func createPlayer(at position: CGPoint) {
@@ -112,13 +120,18 @@ extension PizzaVSAnanassoScene {
         player.position = position
         player.zPosition = 1
         
-        player.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.affectedByGravity = false
+        
+        player.physicsBody?.categoryBitMask = PhysicsCategory.pizza
+        player.physicsBody?.collisionBitMask = PhysicsCategory.ananas
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.ananas
+        
         
         addChild(self.player)
     }
     
-    func generateAnanas(){
+    func generateAnanas() {
         ananas_default.name = "ananas"
         ananas_default.size = CGSize(width: 64, height: 64)
         ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
@@ -128,11 +141,16 @@ extension PizzaVSAnanassoScene {
             ananasTexture.append(SKTexture(imageNamed: "pineapple_sprite\(i)"))
         }
         
+        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 64)
+        ananas_default.physicsBody?.categoryBitMask = PhysicsCategory.ananas
+        ananas_default.physicsBody?.collisionBitMask = PhysicsCategory.pizza
+        ananas_default.physicsBody?.contactTestBitMask = PhysicsCategory.pizza
+        
         let animation = SKAction.animate(with: ananasTexture, timePerFrame:0.2)
         
         addChild(ananas_default)
         ananas_default.run(SKAction.repeatForever(animation))
-
+        
     }
     
     private func createEnemy(){
