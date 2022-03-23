@@ -50,7 +50,7 @@ extension PizzaVSAnanassoScene {
         
         self.setBackground()
         
-        let playerInitialPosition = CGPoint(x: positioning.frameX.size.width/2, y: positioning.frameY.size.height/6)
+        let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
         self.createPlayer(at: playerInitialPosition)
         self.generateAnanas()
         self.createEnemy()
@@ -60,7 +60,7 @@ extension PizzaVSAnanassoScene {
     private func setUpPhysicsWorld() {
         physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
         
-//        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self
     }
     
     private func restartGame() {
@@ -90,42 +90,23 @@ extension PizzaVSAnanassoScene {
         ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
         ananas_default.name = "ananas"
         ananas_default.size = CGSize(width: 64, height: 64)
-        ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
+        ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
         ananas_default.zPosition = 1
         ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
         
         
         
         addChild(ananas_default)
-        ananas_default.run(SKAction.repeatForever(animation))
-    }
-    
-    
-    override func sceneDidLoad() {
-        
-        self.setUpPhysicsWorld()
-        
-        generateAnanas()
     }
     
     private func createEnemy(){
         self.enemy.name = "enemy"
         self.enemy.size = CGSize(width: 64, height: 64)
-        self.enemy.position = CGPoint(x: positioning.frameX.width/3, y: positioning.frameY.height/3)
+        self.enemy.position = CGPoint(x: Positioning.frameX.width/3, y: Positioning.frameY.height/3)
         self.zPosition = 1
         
         
         addChild(enemy)
     }
-}
-
-// MARK: Game Scene Set Up
-extension PizzaVSAnanassoScene {
-    
-    private func setUpPhysicsWorld() {
-        physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
-        physicsWorld.contactDelegate = self
-    }
-    
 }
 
