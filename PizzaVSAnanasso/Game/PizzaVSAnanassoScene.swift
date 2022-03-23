@@ -22,7 +22,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         ananas_default.name = "ananas"
         ananas_default.size = CGSize(width: 64, height: 64)
         ananas_default.zPosition = 1
-        ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
+        ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
         
         let animation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
         
