@@ -29,6 +29,40 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     let tagliere2: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     let tagliere3: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     
+    var isMovingToTheRight: Bool = false
+    var isMovingToTheLeft: Bool = false
+    
+    
+    enum SideOfTheScreen {
+        case right, left
+    }
+    
+    func sideTouched(for position: CGPoint) -> SideOfTheScreen {
+        if position.x < self.frame.width / 2 {
+            
+            return .left
+        } else {
+            
+            return .right
+            
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            switch sideTouched(for: location) {
+            case .right:
+                self.isMovingToTheRight = true
+                print("ℹ️ Touching the RIGHT side.")
+            case .left:
+                self.isMovingToTheLeft = true
+                print("ℹ️ Touching the LEFT side.")
+            }
+        }
+        
+    }
     
     override func sceneDidLoad() {
         //        self.setUpGame()
@@ -44,6 +78,12 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         //        moveLeft()
+        if isMovingToTheLeft {
+            self.moveLeft()
+        }
+        if isMovingToTheRight {
+            self.moveRight()
+        }
     }
 }
 
@@ -187,11 +227,11 @@ extension PizzaVSAnanassoScene {
 // MARK: - Player Movement
 extension PizzaVSAnanassoScene {
     private func moveLeft(){
-        self.player.physicsBody?.applyForce(CGVector(dx: -5, dy: 0))
+        self.player.physicsBody?.applyForce(CGVector(dx: -100, dy: 0))
     }
     
     private func moveRight(){
-        self.player.physicsBody?.applyForce(CGVector(dx: 5, dy: 0))
+        self.player.physicsBody?.applyForce(CGVector(dx: 100, dy: 0))
     }
 }
 
