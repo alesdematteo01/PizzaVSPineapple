@@ -17,6 +17,8 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     let ananas_3 = SKTexture(imageNamed: "pineapple_sprite3")
 
     
+//MARK: Generate Random Ananas
+    
     private func createAnanas() {
         let ananasPositioning = self.randomAnanasPosition()
         generateAnanas(at: ananasPositioning)
@@ -24,7 +26,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     private func randomAnanasPosition() -> CGPoint {
         let initialX: CGFloat = 25
-        let finalX: CGFloat = self.frame.width - 25
+        let finalX: CGFloat = Positioning.frameX.width - 25
         
         let positionX = CGFloat.random(in: initialX...finalX)
         let positionY = frame.height - 25
@@ -33,16 +35,18 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func generateAnanas(at position: CGPoint){
-        ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
         ananas_default.name = "ananas"
-        ananas_default.size = CGSize(width: 40, height: 40)
+        ananas_default.size = CGSize(width: 64, height: 64)
         ananas_default.zPosition = 1 //to change with structured zPositioning
-        ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
+        ananas_default.position = position
         
         let animation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
         
+        
         addChild(ananas_default)
         ananas_default.run(SKAction.repeatForever(animation))
+        
+       
     }
     
     func startAnanasCycle() {
@@ -58,12 +62,12 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     override func sceneDidLoad() {
         
         self.setUpPhysicsWorld()
+        createAnanas()
         
-        generateAnanas()
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
+
     }
 }
 
