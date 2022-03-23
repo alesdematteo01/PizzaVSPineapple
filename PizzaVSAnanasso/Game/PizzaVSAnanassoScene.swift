@@ -10,10 +10,11 @@ import SwiftUI
 
 class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
-    var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
+//    var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
-    var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1"
-    )
+    var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1")
+    let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
+
     let backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "background_level")
     
     var ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
@@ -32,15 +33,25 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     override func sceneDidLoad() {
         //        self.setUpGame()
         self.setUpPhysicsWorld()
+        
         self.setBackground()
         
-        let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
         self.createPlayer(at: playerInitialPosition)
         generateAnanas()
         self.createEnemy()
         self.setTaglieri()
-        
     }
+    
+    override func update(_ currentTime: TimeInterval) {
+        moveLeft()
+    }
+}
+
+//MARK: - Game Scene Set Up
+extension PizzaVSAnanassoScene {
+//     func setUpGame() {
+//        self.gameLogic.setUpGame()
+//    }
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -68,9 +79,9 @@ extension PizzaVSAnanassoScene {
         physicsWorld.contactDelegate = self
     }
     
-    private func restartGame() {
-        self.gameLogic.restartGame()
-    }
+//    private func restartGame() {
+////        self.gameLogic.restartGame()
+//    }
     
     private func setBackground() {
         backgroundImage.position = CGPoint(x: UIScreen.main.bounds.size.width/2, y: UIScreen.main.bounds.size.height/2)
@@ -85,9 +96,9 @@ extension PizzaVSAnanassoScene {
         self.tagliere2.name = "tagliere2"
         self.tagliere3.name = "tagliere3"
         
-        self.tagliere0.position = CGPoint(x: 0, y: 100)
-        self.tagliere1.position = CGPoint(x: 0, y: 300)
-        self.tagliere2.position = CGPoint(x: 0, y: 500)
+        self.tagliere0.position = CGPoint(x: Positioning.frameX.midX, y: 10)
+        self.tagliere1.position = CGPoint(x: Positioning.frameX.maxX-50, y: 10)
+        self.tagliere2.position = CGPoint(x: 50, y: 10)
         self.tagliere3.position = CGPoint(x: 0, y: 700)
         
         self.tagliere0.zPosition = 1
@@ -96,15 +107,19 @@ extension PizzaVSAnanassoScene {
         self.tagliere3.zPosition = 1
         
         tagliere0.physicsBody = SKPhysicsBody(texture: tagliere0.texture!, size: tagliere0.size)
+        tagliere0.physicsBody?.mass = 5000000
         tagliere0.physicsBody?.affectedByGravity = false
         
         tagliere1.physicsBody = SKPhysicsBody(texture: tagliere1.texture!, size: tagliere1.size)
+        tagliere1.physicsBody?.mass = 5000000
         tagliere1.physicsBody?.affectedByGravity = false
         
         tagliere2.physicsBody = SKPhysicsBody(texture: tagliere2.texture!, size: tagliere2.size)
+        tagliere2.physicsBody?.mass = 5000000
         tagliere2.physicsBody?.affectedByGravity = false
         
         tagliere3.physicsBody = SKPhysicsBody(texture: tagliere3.texture!, size: tagliere3.size)
+        tagliere3.physicsBody?.mass = 5000000
         tagliere3.physicsBody?.affectedByGravity = false
         
         addChild(tagliere0)
@@ -163,6 +178,17 @@ extension PizzaVSAnanassoScene {
         
         addChild(enemy)
         enemy.run(SKAction.repeatForever(animation))
+    }
+}
+
+// MARK: - Player Movement
+extension PizzaVSAnanassoScene {
+    private func moveLeft(){
+        self.player.physicsBody?.applyForce(CGVector(dx: -5, dy: 0))
+    }
+    
+    private func moveRight(){
+        self.player.physicsBody?.applyForce(CGVector(dx: 5, dy: 0))
     }
 }
 
