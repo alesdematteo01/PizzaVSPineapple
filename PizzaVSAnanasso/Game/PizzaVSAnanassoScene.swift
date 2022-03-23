@@ -8,14 +8,26 @@
 import SpriteKit
 import SwiftUI
 
-class PizzaVSAnanassoScene: SKScene {
+class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     override func sceneDidLoad() {
+        
+        self.setUpPhysicsWorld()
         
     }
     
     override func update(_ currentTime: TimeInterval) {
         
     }
+}
+
+// MARK: Game Scene Set Up
+extension PizzaVSAnanassoScene {
+    
+    private func setUpPhysicsWorld() {
+        physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
+        physicsWorld.contactDelegate = self
+    }
+    
 }
 

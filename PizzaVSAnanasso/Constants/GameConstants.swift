@@ -29,3 +29,19 @@ enum GameState {
     case playing
     case gameOver
 }
+
+
+struct PhysicsCategory {
+    static let pizza : UInt32 = 0x1 << 0
+    static let ananas : UInt32 = 0x1 << 1
+    static let chef : UInt32 = 0x1 << 2
+    static let cutter : UInt32 = 0x1 << 3
+}
+
+struct Layer {
+    static let background : CGFloat = -3
+    static let pizza : CGFloat = 1
+    static let chef : CGFloat = 2
+    static let ananas : CGFloat = 3
+    static let cutter : CGFloat = 4
+}
