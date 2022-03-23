@@ -87,15 +87,19 @@ extension PizzaVSAnanassoScene {
         self.tagliere3.zPosition = 1
         
         tagliere0.physicsBody = SKPhysicsBody(texture: tagliere0.texture!, size: tagliere0.size)
+        tagliere0.physicsBody?.mass = 5000000
         tagliere0.physicsBody?.affectedByGravity = false
         
         tagliere1.physicsBody = SKPhysicsBody(texture: tagliere1.texture!, size: tagliere1.size)
+        tagliere1.physicsBody?.mass = 5000000
         tagliere1.physicsBody?.affectedByGravity = false
         
         tagliere2.physicsBody = SKPhysicsBody(texture: tagliere2.texture!, size: tagliere2.size)
+        tagliere2.physicsBody?.mass = 5000000
         tagliere2.physicsBody?.affectedByGravity = false
         
         tagliere3.physicsBody = SKPhysicsBody(texture: tagliere3.texture!, size: tagliere3.size)
+        tagliere3.physicsBody?.mass = 5000000
         tagliere3.physicsBody?.affectedByGravity = false
 
         addChild(tagliere0)
