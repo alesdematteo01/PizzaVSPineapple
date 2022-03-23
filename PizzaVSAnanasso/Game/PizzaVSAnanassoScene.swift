@@ -12,34 +12,30 @@ class PizzaVSAnanassoScene: SKScene {
     
     var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
-    var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1")
-    var backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "background_level")
+    var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1"
+    )
+    let backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "background_level")
+    
     var ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
     let ananas_0 = SKTexture(imageNamed: "pineapple_sprite0")
     let ananas_1 = SKTexture(imageNamed: "pineapple_sprite1")
     let ananas_2 = SKTexture(imageNamed: "pineapple_sprite2")
     let ananas_3 = SKTexture(imageNamed: "pineapple_sprite3")
-
     
-    func generateAnanas(){
-        ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
-        ananas_default.name = "ananas"
-        ananas_default.size = CGSize(width: 64, height: 64)
-        ananas_default.zPosition = 1
-        ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
-        
-        let animation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
-        
-        
-        addChild(ananas_default)
-        ananas_default.run(SKAction.repeatForever(animation))
-    }
-    
+    let enemy: SKSpriteNode = SKSpriteNode(imageNamed: "enemyChef0")
+    let enemy0 = SKTexture(imageNamed: "enemyChef0")
+    let enemy1 = SKTexture(imageNamed: "enemyChef1")
     
     override func sceneDidLoad() {
         self.setUpGame()
         self.setUpPhysicsWorld()
-        generateAnanas()
+        
+        let ananasAnimation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
+        ananas_default.run(SKAction.repeatForever(ananasAnimation))
+
+        
+        let enemyAnimation = SKAction.animate(with: [enemy0, enemy1], timePerFrame: 0.2)
+        enemy.run(SKAction.repeatForever(enemyAnimation))
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -54,8 +50,10 @@ extension PizzaVSAnanassoScene {
         
         self.setBackground()
         
-        let playerInitialPosition = CGPoint(x: self.frame.width/2, y: self.frame.height/6)
+        let playerInitialPosition = CGPoint(x: positioning.frameX.size.width/2, y: positioning.frameY.size.height/6)
         self.createPlayer(at: playerInitialPosition)
+        self.generateAnanas()
+        self.createEnemy()
 
     }
     
@@ -78,13 +76,36 @@ extension PizzaVSAnanassoScene {
     
     private func createPlayer(at position: CGPoint) {
         self.player.name = "player"
-        
+        self.player.size = CGSize(width: 64, height: 64)
         self.player.position = position
+        self.player.zPosition = 1
         
         player.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
         player.physicsBody?.affectedByGravity = false
         
         addChild(self.player)
+    }
+    
+    private func generateAnanas(){
+        ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
+        ananas_default.name = "ananas"
+        ananas_default.size = CGSize(width: 64, height: 64)
+        ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
+        ananas_default.zPosition = 1
+        
+        
+        
+        addChild(ananas_default)
+    }
+    
+    private func createEnemy(){
+        self.enemy.name = "enemy"
+        self.enemy.size = CGSize(width: 64, height: 64)
+        self.enemy.position = CGPoint(x: positioning.frameX.width/3, y: positioning.frameY.height/3)
+        self.zPosition = 1
+        
+        
+        addChild(enemy)
     }
 }
 

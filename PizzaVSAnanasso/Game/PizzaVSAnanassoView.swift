@@ -30,8 +30,8 @@ struct PizzaVSAnanassoView: View {
     // The game state is used to transition between the different states of the game
     @Binding var currentGameState: GameState
     
-    private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
-    private var screenHeight: CGFloat { UIScreen.main.bounds.size.height }
+    private var screenWidth: CGFloat { positioning.frameX.size.width }
+    private var screenHeight: CGFloat { positioning.frameY.size.height }
     
     /**
      * # The Game Scene
