@@ -29,3 +29,8 @@ enum GameState {
     case playing
     case gameOver
 }
+
+struct positioning {
+    static let frameX = UIScreen.main.bounds
+    static let frameY = UIScreen.main.bounds
+}
