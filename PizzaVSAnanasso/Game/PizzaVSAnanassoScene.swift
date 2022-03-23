@@ -9,6 +9,7 @@ import SpriteKit
 import SwiftUI
 
 class PizzaVSAnanassoScene: SKScene {
+    
     override func sceneDidLoad() {
         
     }
@@ -17,3 +18,4 @@ class PizzaVSAnanassoScene: SKScene {
         
     }
 }
+

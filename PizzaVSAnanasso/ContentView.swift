@@ -8,30 +8,39 @@
 import SwiftUI
 import SpriteKit
 
+/**
+ * # ContentView
+ *
+ *   This view is responsible for managing the states of the game, presenting the proper view.
+ **/
+
 struct ContentView: View {
     
-    private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
-    private var screenHeight: CGFloat { UIScreen.main.bounds.size.height }
+    // The navigation of the app is based on the state of the game.
+    // Each state presents a different view on the SwiftUI app structure
+    @State var currentGameState: GameState = .playing
     
-    /**
-     * # The Game Scene
-     *   If you need to do any configurations on your game scene, like changing it's size
-     *   for example, do it here.
-     **/
-    var arcadeGameScene: PizzaVSAnanassoScene {
-        let scene = PizzaVSAnanassoScene()
-        
-        scene.size = CGSize(width: screenWidth, height: screenHeight)
-        scene.scaleMode = .fill
-        
-        return scene
-    }
+    // The game logic is a singleton object shared among the different views of the application
+    @StateObject var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
     
     
     var body: some View {
-        SpriteView(scene: self.arcadeGameScene)
-            .frame(width: screenWidth, height: screenHeight)
-            .statusBar(hidden: true)
+
+        switch currentGameState {
+        case .mainScreen:
+//            MainScreenView(currentGameState: $currentGameState)
+//                .environmentObject(gameLogic)
+            Text("gfer")
+        
+        case .playing:
+            PizzaVSAnanassoView(currentGameState: $currentGameState)
+                .environmentObject(gameLogic)
+        
+        case .gameOver:
+//            GameOverView(currentGameState: $currentGameState)
+//                .environmentObject(gameLogic)
+            Text("fe")
+        }
     }
 }
 
