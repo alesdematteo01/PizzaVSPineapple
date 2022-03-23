@@ -10,11 +10,11 @@ import SwiftUI
 
 class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
-//    var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
+    //    var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
     var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1")
     let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
-
+    
     let backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "background_level")
     
     var ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
@@ -43,35 +43,22 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        moveLeft()
+        //        moveLeft()
     }
 }
 
 //MARK: - Game Scene Set Up
 extension PizzaVSAnanassoScene {
-//     func setUpGame() {
-//        self.gameLogic.setUpGame()
-//    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        
-    }
-}
-
-//MARK: - Game Scene Set Up
-extension PizzaVSAnanassoScene {
-    //    private func setUpGame() {
+    //     func setUpGame() {
     //        self.gameLogic.setUpGame()
-    //
-    //        self.setBackground()
-    //
-    //        let playerInitialPosition = CGPoint(x: Positioning.frameX.size.width/2, y: Positioning.frameY.size.height/6)
-    //        self.createPlayer(at: playerInitialPosition)
-    //        generateAnanas()
-    //        self.createEnemy()
-    //        self.setTaglieri()
-    //
     //    }
+    
+    
+}
+
+//MARK: - Game Scene Set Up
+extension PizzaVSAnanassoScene {
+    
     
     private func setUpPhysicsWorld() {
         physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
@@ -79,9 +66,9 @@ extension PizzaVSAnanassoScene {
         physicsWorld.contactDelegate = self
     }
     
-//    private func restartGame() {
-////        self.gameLogic.restartGame()
-//    }
+    //    private func restartGame() {
+    ////        self.gameLogic.restartGame()
+    //    }
     
     private func setBackground() {
         backgroundImage.position = CGPoint(x: UIScreen.main.bounds.size.width/2, y: UIScreen.main.bounds.size.height/2)
@@ -109,18 +96,30 @@ extension PizzaVSAnanassoScene {
         tagliere0.physicsBody = SKPhysicsBody(texture: tagliere0.texture!, size: tagliere0.size)
         tagliere0.physicsBody?.mass = 5000000
         tagliere0.physicsBody?.affectedByGravity = false
+        tagliere0.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere0.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere0.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         
         tagliere1.physicsBody = SKPhysicsBody(texture: tagliere1.texture!, size: tagliere1.size)
         tagliere1.physicsBody?.mass = 5000000
         tagliere1.physicsBody?.affectedByGravity = false
+        tagliere1.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere1.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere1.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         
         tagliere2.physicsBody = SKPhysicsBody(texture: tagliere2.texture!, size: tagliere2.size)
         tagliere2.physicsBody?.mass = 5000000
         tagliere2.physicsBody?.affectedByGravity = false
+        tagliere2.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere2.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere2.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         
         tagliere3.physicsBody = SKPhysicsBody(texture: tagliere3.texture!, size: tagliere3.size)
         tagliere3.physicsBody?.mass = 5000000
         tagliere3.physicsBody?.affectedByGravity = false
+        tagliere3.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere3.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere3.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         
         addChild(tagliere0)
         addChild(tagliere1)
@@ -139,8 +138,8 @@ extension PizzaVSAnanassoScene {
         player.physicsBody?.affectedByGravity = false
         
         player.physicsBody?.categoryBitMask = PhysicsCategory.pizza
-        player.physicsBody?.collisionBitMask = PhysicsCategory.ananas
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.ananas
+        player.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
         
         
         addChild(self.player)
@@ -156,10 +155,10 @@ extension PizzaVSAnanassoScene {
             ananasTexture.append(SKTexture(imageNamed: "pineapple_sprite\(i)"))
         }
         
-        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 64)
+        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         ananas_default.physicsBody?.categoryBitMask = PhysicsCategory.ananas
-        ananas_default.physicsBody?.collisionBitMask = PhysicsCategory.pizza
-        ananas_default.physicsBody?.contactTestBitMask = PhysicsCategory.pizza
+        ananas_default.physicsBody?.collisionBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
+        ananas_default.physicsBody?.contactTestBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
         
         let animation = SKAction.animate(with: ananasTexture, timePerFrame:0.2)
         
@@ -175,6 +174,10 @@ extension PizzaVSAnanassoScene {
         enemy.zPosition = 1
         
         let animation = SKAction.animate(with: [enemy0, enemy1], timePerFrame: 0.2)
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemy.size)
+        enemy.physicsBody?.categoryBitMask = PhysicsCategory.chef
+        enemy.physicsBody?.collisionBitMask = PhysicsCategory.cutter | PhysicsCategory.pizza
+        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.cutter | PhysicsCategory.pizza
         
         addChild(enemy)
         enemy.run(SKAction.repeatForever(animation))
