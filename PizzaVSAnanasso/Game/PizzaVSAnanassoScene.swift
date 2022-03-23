@@ -17,23 +17,46 @@ class PizzaVSAnanassoScene: SKScene {
     let ananas_3 = SKTexture(imageNamed: "pineapple_sprite3")
 
     
-    func generateAnanas(){
+    private func createAnanas() {
+        let ananasPositioning = self.randomAnanasPosition()
+        generateAnanas(at: ananasPositioning)
+    }
+    
+    private func randomAnanasPosition() -> CGPoint {
+        let initialX: CGFloat = 25
+        let finalX: CGFloat = self.frame.width - 25
+        
+        let positionX = CGFloat.random(in: initialX...finalX)
+        let positionY = frame.height - 25
+        
+        return CGPoint(x: positionX, y: positionY)
+    }
+    
+    func generateAnanas(at position: CGPoint){
         ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
         ananas_default.name = "ananas"
-        ananas_default.size = CGSize(width: 64, height: 64)
-        ananas_default.zPosition = 1
+        ananas_default.size = CGSize(width: 40, height: 40)
+        ananas_default.zPosition = 1 //to change with structured zPositioning
         ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
         
         let animation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
-        
         
         addChild(ananas_default)
         ananas_default.run(SKAction.repeatForever(animation))
     }
     
+    func startAnanasCycle() {
+        let createAnanasAction = SKAction.run(createAnanas)
+        let waitAction = SKAction.wait(forDuration: 5.0)
+        
+        let createAndWaitAction = SKAction.sequence([createAnanasAction, waitAction])
+        let ananasCycleAction = SKAction.repeatForever(createAndWaitAction)
+        
+        run(ananasCycleAction)
+    }
     
     override func sceneDidLoad() {
-        generateAnanas()
+        createAnanas()
     }
     
     override func update(_ currentTime: TimeInterval) {
