@@ -8,7 +8,7 @@
 import SpriteKit
 import SwiftUI
 
-class PizzaVSAnanassoScene: SKScene {
+class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
@@ -92,10 +92,20 @@ extension PizzaVSAnanassoScene {
         ananas_default.size = CGSize(width: 64, height: 64)
         ananas_default.position = CGPoint(x: positioning.frameX.midX, y: positioning.frameY.midY)
         ananas_default.zPosition = 1
+        ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
         
         
         
         addChild(ananas_default)
+        ananas_default.run(SKAction.repeatForever(animation))
+    }
+    
+    
+    override func sceneDidLoad() {
+        
+        self.setUpPhysicsWorld()
+        
+        generateAnanas()
     }
     
     private func createEnemy(){
@@ -107,5 +117,15 @@ extension PizzaVSAnanassoScene {
         
         addChild(enemy)
     }
+}
+
+// MARK: Game Scene Set Up
+extension PizzaVSAnanassoScene {
+    
+    private func setUpPhysicsWorld() {
+        physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
+        physicsWorld.contactDelegate = self
+    }
+    
 }
 
