@@ -21,7 +21,7 @@ struct ContentView: View {
     @State var currentGameState: GameState = .playing
     
     // The game logic is a singleton object shared among the different views of the application
-    @StateObject var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
+//    @StateObject var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
     
     
     var body: some View {
@@ -34,7 +34,8 @@ struct ContentView: View {
         
         case .playing:
             PizzaVSAnanassoView(currentGameState: $currentGameState)
-                .environmentObject(gameLogic)
+                
+//                .environmentObject(gameLogic)
         
         case .gameOver:
 //            GameOverView(currentGameState: $currentGameState)
