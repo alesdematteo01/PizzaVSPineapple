@@ -13,10 +13,11 @@ class PizzaVSAnanassoScene: SKScene {
     var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
     var player: SKSpriteNode = SKSpriteNode(imageNamed: "pizzaIdle1")
-    var backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "")
+    var backgroundImage: SKSpriteNode = SKSpriteNode(imageNamed: "background_level")
     
     override func sceneDidLoad() {
-        
+        self.setUpGame()
+        self.setUpPhysicsWorld()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -29,7 +30,10 @@ extension PizzaVSAnanassoScene {
     private func setUpGame() {
         self.gameLogic.setUpGame()
         
+        self.setBackground()
+        
         let playerInitialPosition = CGPoint(x: self.frame.width/2, y: self.frame.height/6)
+        self.createPlayer(at: playerInitialPosition)
 
     }
     
@@ -41,6 +45,13 @@ extension PizzaVSAnanassoScene {
     
     private func restartGame() {
         self.gameLogic.restartGame()
+    }
+    
+    private func setBackground() {
+        self.backgroundImage.position = CGPoint(x: UIScreen.main.bounds.size.width/2, y: UIScreen.main.bounds.size.height/2)
+        self.zPosition = -1
+        
+        addChild(backgroundImage)
     }
     
     private func createPlayer(at position: CGPoint) {
