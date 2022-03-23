@@ -44,4 +44,8 @@ struct Layer {
     static let chef : CGFloat = 2
     static let ananas : CGFloat = 3
     static let cutter : CGFloat = 4
+    
+struct Positioning {
+    static let frameX = UIScreen.main.bounds
+    static let frameY = UIScreen.main.bounds
 }
