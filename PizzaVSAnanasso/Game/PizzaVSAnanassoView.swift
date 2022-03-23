@@ -25,13 +25,13 @@ struct PizzaVSAnanassoView: View {
      *   you can use it to display information on the SwiftUI view,
      *   for example, and comunicate with the Game Scene.
      **/
-    @StateObject var gameLogic: PizzaVSAnanassoGameLogic =  PizzaVSAnanassoGameLogic.shared
+//    @StateObject var gameLogic: PizzaVSAnanassoGameLogic =  PizzaVSAnanassoGameLogic.shared
     
     // The game state is used to transition between the different states of the game
     @Binding var currentGameState: GameState
     
-    private var screenWidth: CGFloat { UIScreen.main.bounds.size.width }
-    private var screenHeight: CGFloat { UIScreen.main.bounds.size.height }
+    private var screenWidth: CGFloat { Positioning.frameX.size.width }
+    private var screenHeight: CGFloat { Positioning.frameY.size.height }
     
     /**
      * # The Game Scene
