@@ -8,7 +8,7 @@
 import SpriteKit
 import SwiftUI
 
-class PizzaVSAnanassoScene: SKScene {
+class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     var ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
     let ananas_0 = SKTexture(imageNamed: "pineapple_sprite0")
@@ -56,11 +56,24 @@ class PizzaVSAnanassoScene: SKScene {
     }
     
     override func sceneDidLoad() {
-        createAnanas()
+        
+        self.setUpPhysicsWorld()
+        
+        generateAnanas()
     }
     
     override func update(_ currentTime: TimeInterval) {
         
     }
+}
+
+// MARK: Game Scene Set Up
+extension PizzaVSAnanassoScene {
+    
+    private func setUpPhysicsWorld() {
+        physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
+        physicsWorld.contactDelegate = self
+    }
+    
 }
 
