@@ -170,11 +170,11 @@ extension PizzaVSAnanassoScene {
     
     private func createPlayer(at position: CGPoint) {
         player.name = "player"
-        player.size = CGSize(width: 64, height: 64)
+        player.size = CGSize(width: 64, height: 52)
         player.position = position
         player.zPosition = 1
         
-        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
+        player.physicsBody = SKPhysicsBody(circleOfRadius: 26)
         player.physicsBody?.affectedByGravity = false
         
         player.physicsBody?.categoryBitMask = PhysicsCategory.pizza
@@ -195,7 +195,7 @@ extension PizzaVSAnanassoScene {
             ananasTexture.append(SKTexture(imageNamed: "pineapple_sprite\(i)"))
         }
         
-        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 32)
         ananas_default.physicsBody?.categoryBitMask = PhysicsCategory.ananas
         ananas_default.physicsBody?.collisionBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
         ananas_default.physicsBody?.contactTestBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
