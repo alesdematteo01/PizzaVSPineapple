@@ -181,6 +181,10 @@ extension PizzaVSAnanassoScene {
         player.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
         player.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
         
+        let xRange = SKRange(lowerLimit: Positioning.frameX.minX, upperLimit: Positioning.frameX.maxX)
+        let xContraint = SKConstraint.positionX(xRange)
+        
+        self.player.constraints = [xContraint]
         
         addChild(self.player)
     }
