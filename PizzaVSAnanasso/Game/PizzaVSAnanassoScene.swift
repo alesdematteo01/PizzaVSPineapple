@@ -13,6 +13,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     var music = SKAudioNode()
     var backgroundEnd = SKSpriteNode()
     var endingSprite = SKSpriteNode()
+    var endLabel = SKLabelNode()
     
     var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
@@ -493,7 +494,7 @@ extension PizzaVSAnanassoScene {
         enemy.run(SKAction.repeatForever(animation))
     }
     
-
+    
     
     private func lifePoint() {
         var i = 0.0
@@ -586,11 +587,24 @@ extension PizzaVSAnanassoScene {
         backgroundEnd.alpha = 0.5
         addChild(backgroundEnd)
         
+        endingSprite = SKSpriteNode(imageNamed: "deadPizza")
+        endingSprite.size = CGSize(width: 250, height: 250)
+        endingSprite.position = CGPoint(x: Positioning.frameY.midX, y: Positioning.frameY.midY)
         endingSprite.name = "endingSprite"
         endingSprite.zPosition = Layer.endSprite
-        //        endingSprite.size = CGSize(width: <#T##CGFloat#>, height: <#T##CGFloat#>)
-        endingSprite.position = CGPoint(x: frame.minX, y: frame.minY)
+        endingSprite.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(endingSprite)
+        
+        
+        endLabel.name = "endLabel"
+        endLabel = SKLabelNode(fontNamed: "Snes")
+        endLabel.fontSize = 50
+        endLabel.position = CGPoint(x: frame.midX, y: frame.midY - 150)
+        endLabel.zPosition = Layer.endSprite
+        endLabel.text = "You Lose!"
+        endLabel.color = SKColor.red
+        endLabel.colorBlendFactor = 1
+        addChild(endLabel)
         
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
@@ -618,6 +632,16 @@ extension PizzaVSAnanassoScene {
         //        endingSprite.size = CGSize(width: <#T##CGFloat#>, height: <#T##CGFloat#>)
         endingSprite.position = CGPoint(x: frame.minX, y: frame.minY)
         addChild(endingSprite)
+        
+        endLabel.name = "endLabel"
+        endLabel = SKLabelNode(fontNamed: "Snes")
+        endLabel.fontSize = 50
+        endLabel.position = CGPoint(x: frame.midX, y: frame.midY - 150)
+        endLabel.zPosition = Layer.endSprite
+        endLabel.text = "You Win!"
+        endLabel.color = SKColor.red
+        endLabel.colorBlendFactor = 1
+        addChild(endLabel)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
             let scene : SKScene = PizzaVSAnanassoScene(size: (self.view?.bounds.size)!)

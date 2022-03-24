@@ -19,6 +19,7 @@
 		4434AAE727EA2F2100BC3A51 /* PizzaVSAnanassoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4434AAE627EA2F2100BC3A51 /* PizzaVSAnanassoUITestsLaunchTests.swift */; };
 		4434AAF527EA336F00BC3A51 /* PizzaVSAnanassoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4434AAF427EA336F00BC3A51 /* PizzaVSAnanassoScene.swift */; };
 		589238E627ED0A5F001EF79B /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 589238E527ED0A5F001EF79B /* song.mp3 */; };
+		58E0FADB27ED286F000F5976 /* Snes.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58E0FADA27ED286F000F5976 /* Snes.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		4434AAE627EA2F2100BC3A51 /* PizzaVSAnanassoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PizzaVSAnanassoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4434AAF427EA336F00BC3A51 /* PizzaVSAnanassoScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PizzaVSAnanassoScene.swift; sourceTree = "<group>"; };
 		589238E527ED0A5F001EF79B /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
+		58E0FADA27ED286F000F5976 /* Snes.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Snes.ttf; sourceTree = "<group>"; };
+		58E0FADC27ED2A0A000F5976 /* Pizza-VS-Ananasso-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Pizza-VS-Ananasso-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +95,9 @@
 		4434AABD27EA2F1F00BC3A51 = {
 			isa = PBXGroup;
 			children = (
+				58E0FADC27ED2A0A000F5976 /* Pizza-VS-Ananasso-Info.plist */,
 				4434AAC827EA2F1F00BC3A51 /* PizzaVSAnanasso */,
-				589238E527ED0A5F001EF79B /* song.mp3 */,
+				58E0FAD927ED2844000F5976 /* Song, Font */,
 				4434AAD927EA2F2100BC3A51 /* PizzaVSAnanassoTests */,
 				4434AAE327EA2F2100BC3A51 /* PizzaVSAnanassoUITests */,
 				4434AAC727EA2F1F00BC3A51 /* Products */,
@@ -156,6 +160,15 @@
 				4424E34327EB57F100154F9F /* PizzaVSAnanassoGameLogic.swift */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		58E0FAD927ED2844000F5976 /* Song, Font */ = {
+			isa = PBXGroup;
+			children = (
+				58E0FADA27ED286F000F5976 /* Snes.ttf */,
+				589238E527ED0A5F001EF79B /* song.mp3 */,
+			);
+			path = "Song, Font";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4434AAD127EA2F2100BC3A51 /* Preview Assets.xcassets in Resources */,
+				58E0FADB27ED286F000F5976 /* Snes.ttf in Resources */,
 				4434AACE27EA2F2100BC3A51 /* Assets.xcassets in Resources */,
 				589238E627ED0A5F001EF79B /* song.mp3 in Resources */,
 			);
@@ -382,6 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -437,6 +452,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -458,6 +474,7 @@
 				DEVELOPMENT_TEAM = 96PF9Z4T28;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pizza-VS-Ananasso-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -488,6 +505,7 @@
 				DEVELOPMENT_TEAM = 96PF9Z4T28;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Pizza-VS-Ananasso-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
