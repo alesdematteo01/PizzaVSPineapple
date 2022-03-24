@@ -36,6 +36,7 @@ struct PhysicsCategory {
     static let ananas : UInt32 = 0x1 << 1
     static let chef : UInt32 = 0x1 << 2
     static let cutter : UInt32 = 0x1 << 3
+    static let banana : UInt32 = 0x1 << 4
 }
 
 struct Layer {
@@ -45,6 +46,9 @@ struct Layer {
     static let ananas : CGFloat = 3
     static let cutter : CGFloat = 4
     static let life : CGFloat = 5
+    static let buttons : CGFloat = 10
+    static let endBG : CGFloat = 11
+    static let endSprite : CGFloat = 12
 }
     
 struct Positioning {
