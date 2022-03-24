@@ -13,15 +13,14 @@ class PizzaVSAnanassoGameLogic: ObservableObject {
     static let shared: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
     
     // Function responsible to set up the game before it starts.
-    func setUpGame() {
-                
-        self.currentScore = 0
-        self.sessionDuration = 0
-        
-        self.isGameOver = false
-        
-
-    }
+//    func setUpGame() {
+//
+//        self.currentScore = 0
+//        self.sessionDuration = 0
+//
+//        self.isGameOver = false
+//
+//    }
     
     // Keeps track of the current score of the player
     @Published var currentScore: Int = 0
@@ -39,11 +38,11 @@ class PizzaVSAnanassoGameLogic: ObservableObject {
         self.sessionDuration = self.sessionDuration + timeIncrement
     }
     
-    func restartGame() {
-                
-        self.setUpGame()
-    }
-    
+//    func restartGame() {
+//                
+//        self.setUpGame()
+//    }
+//    
     // Game Over Conditions
     @Published var isGameOver: Bool = false
     
