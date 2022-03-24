@@ -42,14 +42,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     var lifeSprite2 = SKSpriteNode()
     var lifeSprite3 = SKSpriteNode()
     
-    
-    //    var isMovingToTheRight: Bool = false
-    //    var isMovingToTheLeft: Bool = false
-    
     var isIdle: Bool = true
-    
-    var isMovingToTheRight: Bool = false
-    var isMovingToTheLeft: Bool = false
     
     var play = SKSpriteNode()
     var pause = SKSpriteNode()
@@ -67,20 +60,20 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-   
+    
     
     func pause_game(){
-                    
-            pause = SKSpriteNode(imageNamed: "pause")
-            pause.name = "pause"
-            pause.size = CGSize(width: 54, height: 54)
-            pause.position = CGPoint(x: Positioning.frameX.minX + 40, y: Positioning.frameY.maxY - 45)
-            pause.zPosition = Layer.ananas + 1
-            
-            addChild(pause)
         
-            status_game = true
-            
+        pause = SKSpriteNode(imageNamed: "pause")
+        pause.name = "pause"
+        pause.size = CGSize(width: 54, height: 54)
+        pause.position = CGPoint(x: Positioning.frameX.minX + 40, y: Positioning.frameY.maxY - 45)
+        pause.zPosition = Layer.ananas + 1
+        
+        addChild(pause)
+        
+        status_game = true
+        
         
     }
     
@@ -97,10 +90,18 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
             addChild(play)
         }
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
+            switch sideTouched(for: location) {
+            case .right:
+                self.jumpRight()
+                print("ℹ️ Touching the RIGHT side.")
+            case .left:
+                self.jumpLeft()
+                print("ℹ️ Touching the LEFT side.")
+            }
             
             for node in self.nodes(at: location){
                 if node.name == "pause" {
@@ -117,48 +118,37 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        for touch in touches {
-            let location = touch.location(in: self)
-            switch sideTouched(for: location) {
-            case .right:
-                self.jumpRight()
-                print("ℹ️ Touching the RIGHT side.")
-            case .left:
-                self.jumpLeft()
-                print("ℹ️ Touching the LEFT side.")
-            }
-        }
-        
-    }
-    
-//MARK: Generate Random Ananas
+    //MARK: Generate Random Ananas
     
     func generateAnanas(at position: CGPoint){
         ananas_default = SKSpriteNode(imageNamed: "pineapple_sprite0")
         ananas_default.name = "ananas"
         ananas_default.size = CGSize(width: 40, height: 40)
-        ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
+        //        ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
+        ananas_default.position = CGPoint(x: enemy.position.x + enemy.frame.width, y: enemy.position.y)
         ananas_default.zPosition = 1
         
-        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 32)
+        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         ananas_default.physicsBody?.categoryBitMask = PhysicsCategory.ananas
         ananas_default.physicsBody?.collisionBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
         ananas_default.physicsBody?.contactTestBitMask = PhysicsCategory.pizza | PhysicsCategory.cutter
         
-//        let animation = SKAction.animate(with: ananasTexture, timePerFrame:0.2)
+        //        let animation = SKAction.animate(with: ananasTexture, timePerFrame:0.2)
         
         ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
         ananas_default.physicsBody?.affectedByGravity = true
-
-        addChild(ananas_default)
         
-        ananas_default.run(SKAction.sequence([
-            SKAction.wait(forDuration: 3.0),
-            SKAction.removeFromParent()
-        ]))
-
+        addChild(ananas_default)
+        let xRange = SKRange(lowerLimit: Positioning.frameX.minX+ananas_default.frame.width/2, upperLimit: Positioning.frameX.maxX-ananas_default.frame.width/2)
+        let xContraint = SKConstraint.positionX(xRange)
+        
+        self.ananas_default.constraints = [xContraint]
+        
+        //        ananas_default.run(SKAction.sequence([
+        //            SKAction.wait(forDuration: 3.0),
+        //            SKAction.removeFromParent()
+        //        ]))
+        
     }
     
     private func randomAnanasPosition() -> CGPoint {
@@ -192,7 +182,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     override func sceneDidLoad() {
         
         self.setUpPhysicsWorld()
-   
+        
         self.setBackground()
         
         self.createPlayer(at: playerInitialPosition)
@@ -209,7 +199,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         pause_game()
     }
     
-//    MARK: Collision
+    //    MARK: Collision
     
     func didBegin(_ contact: SKPhysicsContact) {
         //        Collision
@@ -220,6 +210,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         
         if firstBody.node!.name == "ananas" && secondBody.node!.name == "player" {
             if lifeCounter == 0 {
+                print("you lose")
                 //                game over
             } else {
                 firstBody.node!.removeFromParent()
@@ -228,9 +219,9 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
                 self.reAddLifePoint()
                 print("minus ONE")
             }
-        }
-        if firstBody.node!.name == "player" && secondBody.node!.name == "ananas" {
+        } else if firstBody.node!.name == "player" && secondBody.node!.name == "ananas" {
             if lifeCounter == 0 {
+                print("you lose")
                 //                game over
             } else {
                 secondBody.node!.removeFromParent()
@@ -239,12 +230,12 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
                 self.reAddLifePoint()
                 print("minus ONE but second way")
             }
-        }
-        if firstBody.node!.name == "player" && secondBody.node!.name == "enemy" {
-//            game win
-        }
-        if firstBody.node!.name == "enemy" && secondBody.node!.name == "player" {
-//            game win
+        } else if firstBody.node!.name == "player" && secondBody.node!.name == "enemy" {
+            print("win")
+            //            game win
+        } else if firstBody.node!.name == "enemy" && secondBody.node!.name == "player" {
+            print("win")
+            //            game win
         }
     }
     
@@ -454,7 +445,8 @@ extension PizzaVSAnanassoScene {
     private func createEnemy(){
         enemy.name = "enemy"
         enemy.size = CGSize(width: 64, height: 64)
-        enemy.position = CGPoint(x: Positioning.frameX.width/7, y: Positioning.frameY.height-20)
+        enemy.position = CGPoint(x: Positioning.frameX.width/7, y: 700 + tagliere3.frame.height )
+        
         enemy.zPosition = Layer.chef
         
         let animation = SKAction.animate(with: [enemy0, enemy1], timePerFrame: 0.2)
@@ -519,13 +511,6 @@ extension PizzaVSAnanassoScene {
 
 // MARK: - Player Movement
 extension PizzaVSAnanassoScene {
-    private func moveLeft(){
-        self.player.physicsBody?.applyForce(CGVector(dx: -5, dy: 0))
-    }
-    
-    private func moveRight(){
-        self.player.physicsBody?.applyForce(CGVector(dx: 5, dy: 0))
-    }
     
     private func jumpRight(){
         // move up 20
