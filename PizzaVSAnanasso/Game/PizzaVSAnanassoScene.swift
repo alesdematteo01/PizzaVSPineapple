@@ -32,6 +32,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
 //MARK: Generate Random Ananas
     
+
     private func createAnanas() {
         let ananasPositioning = self.randomAnanasPosition()
         generateAnanas(at: ananasPositioning)
@@ -44,22 +45,8 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         let positionX = CGFloat.random(in: initialX...finalX)
         let positionY = frame.height - 25
         
+        
         return CGPoint(x: positionX, y: positionY)
-    }
-    
-    func generateAnanas(at position: CGPoint){
-        ananas_default.name = "ananas"
-        ananas_default.size = CGSize(width: 64, height: 64)
-        ananas_default.zPosition = 1 //to change with structured zPositioning
-        ananas_default.position = position
-        
-        let animation = SKAction.animate(with: [ananas_0, ananas_1, ananas_2, ananas_3], timePerFrame:0.2)
-        
-        
-        addChild(ananas_default)
-        ananas_default.run(SKAction.repeatForever(animation))
-        
-       
     }
     
     func startAnanasCycle() {
@@ -72,21 +59,23 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         run(ananasCycleAction)
     }
     
+    
     override func sceneDidLoad() {
 //        self.setUpGame()
         self.setUpPhysicsWorld()
+        
+        
         createAnanas()
         
         self.setBackground()
         
         self.createPlayer(at: playerInitialPosition)
-        generateAnanas()
         self.createEnemy()
         self.setTaglieri()
     }
     
     override func update(_ currentTime: TimeInterval) {
-        moveLeft()
+        
     }
 }
 
@@ -164,7 +153,7 @@ extension PizzaVSAnanassoScene {
         addChild(self.player)
     }
     
-    func generateAnanas(){
+    func generateAnanas(at position: CGPoint){
         ananas_default.name = "ananas"
         ananas_default.size = CGSize(width: 64, height: 64)
         ananas_default.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY)
@@ -176,9 +165,12 @@ extension PizzaVSAnanassoScene {
         
         let animation = SKAction.animate(with: ananasTexture, timePerFrame:0.2)
         
+        ananas_default.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
+        ananas_default.physicsBody?.affectedByGravity = true
+
         addChild(ananas_default)
         ananas_default.run(SKAction.repeatForever(animation))
-
+        
     }
     
     private func createEnemy(){
@@ -204,4 +196,6 @@ extension PizzaVSAnanassoScene {
         self.player.physicsBody?.applyForce(CGVector(dx: 5, dy: 0))
     }
 }
+
+
 
