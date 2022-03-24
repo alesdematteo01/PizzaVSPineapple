@@ -44,6 +44,7 @@ struct Layer {
     static let chef : CGFloat = 2
     static let ananas : CGFloat = 3
     static let cutter : CGFloat = 4
+    static let life : CGFloat = 5
 }
     
 struct Positioning {
