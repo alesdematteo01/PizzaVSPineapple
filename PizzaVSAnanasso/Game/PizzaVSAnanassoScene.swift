@@ -28,36 +28,41 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     let tagliere1: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     let tagliere2: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
     let tagliere3: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere4: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere5: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere6: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere7: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere8: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+    let tagliere9: SKSpriteNode = SKSpriteNode(imageNamed: "tagliere")
+
     
-    var isMovingToTheRight: Bool = false
-    var isMovingToTheLeft: Bool = false
+//    var isMovingToTheRight: Bool = false
+//    var isMovingToTheLeft: Bool = false
     
+    var isIdle: Bool = true
     
     enum SideOfTheScreen {
         case right, left
     }
-    
+
     func sideTouched(for position: CGPoint) -> SideOfTheScreen {
         if position.x < self.frame.width / 2 {
-            
             return .left
         } else {
-            
             return .right
-            
         }
     }
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
             let location = touch.location(in: self)
             switch sideTouched(for: location) {
             case .right:
-                self.isMovingToTheRight = true
+                self.jumpRight()
                 print("ℹ️ Touching the RIGHT side.")
             case .left:
-                self.isMovingToTheLeft = true
+                self.jumpLeft()
                 print("ℹ️ Touching the LEFT side.")
             }
         }
@@ -77,13 +82,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        //        moveLeft()
-        if isMovingToTheLeft {
-            self.moveLeft()
-        }
-        if isMovingToTheRight {
-            self.moveRight()
-        }
+
     }
 }
 
@@ -101,7 +100,7 @@ extension PizzaVSAnanassoScene {
     
     
     private func setUpPhysicsWorld() {
-        physicsWorld.gravity = CGVector(dx: 0, dy: -0.9)
+        physicsWorld.gravity = CGVector(dx: 0, dy: -1.8)
         
         physicsWorld.contactDelegate = self
     }
@@ -122,16 +121,41 @@ extension PizzaVSAnanassoScene {
         self.tagliere1.name = "tagliere1"
         self.tagliere2.name = "tagliere2"
         self.tagliere3.name = "tagliere3"
+        self.tagliere4.name = "tagliere4"
+        self.tagliere5.name = "tagliere5"
+        self.tagliere6.name = "tagliere6"
+        self.tagliere7.name = "tagliere4"
+        self.tagliere8.name = "tagliere5"
+        self.tagliere9.name = "tagliere6"
+
         
         self.tagliere0.position = CGPoint(x: Positioning.frameX.midX, y: 10)
         self.tagliere1.position = CGPoint(x: Positioning.frameX.maxX-50, y: 10)
         self.tagliere2.position = CGPoint(x: 50, y: 10)
         self.tagliere3.position = CGPoint(x: 0, y: 700)
+        self.tagliere4.position = CGPoint(x: Positioning.frameX.width - Positioning.frameX.width/3, y: 175)
+        self.tagliere5.position = CGPoint(x: Positioning.frameX.width/3, y: 375)
+        self.tagliere6.position = CGPoint(x: Positioning.frameX.width - Positioning.frameX.width/3, y: 575)
+        self.tagliere7.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.height+10)
+        self.tagliere8.position = CGPoint(x: Positioning.frameX.maxX-50, y: Positioning.frameY.height+10)
+        self.tagliere9.position = CGPoint(x: 50, y: Positioning.frameY.height+10)
+
         
         self.tagliere0.zPosition = 1
         self.tagliere1.zPosition = 1
         self.tagliere2.zPosition = 1
         self.tagliere3.zPosition = 1
+        self.tagliere4.zPosition = 1
+        self.tagliere5.zPosition = 1
+        self.tagliere6.zPosition = 1
+        self.tagliere7.zPosition = 1
+        self.tagliere8.zPosition = 1
+        self.tagliere9.zPosition = 1
+        
+        self.tagliere4.size = CGSize(width: tagliere4.frame.width*2 , height: tagliere4.frame.height)
+        self.tagliere5.size = CGSize(width: tagliere5.frame.width*2 , height: tagliere5.frame.height)
+        self.tagliere6.size = CGSize(width: tagliere6.frame.width*2 , height: tagliere6.frame.height)
+
         
         tagliere0.physicsBody = SKPhysicsBody(texture: tagliere0.texture!, size: tagliere0.size)
         tagliere0.physicsBody?.mass = 5000000
@@ -161,11 +185,63 @@ extension PizzaVSAnanassoScene {
         tagliere3.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         tagliere3.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
         
+        tagliere4.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere4.physicsBody?.mass = 5000000
+        tagliere4.physicsBody?.affectedByGravity = false
+        tagliere4.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere4.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere4.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        tagliere5.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere5.physicsBody?.mass = 5000000
+        tagliere5.physicsBody?.affectedByGravity = false
+        tagliere5.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere5.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere5.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        tagliere6.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere6.physicsBody?.mass = 5000000
+        tagliere6.physicsBody?.affectedByGravity = false
+        tagliere6.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere6.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere6.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        tagliere7.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere7.physicsBody?.mass = 5000000
+        tagliere7.physicsBody?.affectedByGravity = false
+        tagliere7.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere7.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere7.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        tagliere8.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere8.physicsBody?.mass = 5000000
+        tagliere8.physicsBody?.affectedByGravity = false
+        tagliere8.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere8.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere8.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        tagliere9.physicsBody = SKPhysicsBody(texture: tagliere4.texture!, size: tagliere4.size)
+        tagliere9.physicsBody?.mass = 5000000
+        tagliere9.physicsBody?.affectedByGravity = false
+        tagliere9.physicsBody?.categoryBitMask = PhysicsCategory.cutter
+        tagliere9.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        tagliere9.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.pizza
+        
+        self.tagliere4.zRotation = 0.20
+        self.tagliere5.zRotation = -0.20
+        self.tagliere6.zRotation = 0.20
+
+        
         addChild(tagliere0)
         addChild(tagliere1)
         addChild(tagliere2)
         addChild(tagliere3)
-        
+        addChild(tagliere4)
+        addChild(tagliere5)
+        addChild(tagliere6)
+        addChild(tagliere7)
+        addChild(tagliere8)
+        addChild(tagliere9)
     }
     
     private func createPlayer(at position: CGPoint) {
@@ -175,13 +251,14 @@ extension PizzaVSAnanassoScene {
         player.zPosition = 1
         
         player.physicsBody = SKPhysicsBody(circleOfRadius: 26)
-        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.affectedByGravity = true
+        player.physicsBody?.allowsRotation = false
         
         player.physicsBody?.categoryBitMask = PhysicsCategory.pizza
         player.physicsBody?.collisionBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
         player.physicsBody?.contactTestBitMask = PhysicsCategory.ananas | PhysicsCategory.cutter
         
-        let xRange = SKRange(lowerLimit: Positioning.frameX.minX, upperLimit: Positioning.frameX.maxX)
+        let xRange = SKRange(lowerLimit: Positioning.frameX.minX+player.frame.width/2, upperLimit: Positioning.frameX.maxX-player.frame.width/2)
         let xContraint = SKConstraint.positionX(xRange)
         
         self.player.constraints = [xContraint]
@@ -214,7 +291,7 @@ extension PizzaVSAnanassoScene {
     private func createEnemy(){
         enemy.name = "enemy"
         enemy.size = CGSize(width: 64, height: 64)
-        enemy.position = CGPoint(x: Positioning.frameX.width/3, y: Positioning.frameY.height/3)
+        enemy.position = CGPoint(x: Positioning.frameX.width/7, y: Positioning.frameY.height-20)
         enemy.zPosition = 1
         
         let animation = SKAction.animate(with: [enemy0, enemy1], timePerFrame: 0.2)
@@ -231,11 +308,34 @@ extension PizzaVSAnanassoScene {
 // MARK: - Player Movement
 extension PizzaVSAnanassoScene {
     private func moveLeft(){
-        self.player.physicsBody?.applyForce(CGVector(dx: -100, dy: 0))
+        self.player.physicsBody?.applyForce(CGVector(dx: -5, dy: 0))
     }
     
     private func moveRight(){
-        self.player.physicsBody?.applyForce(CGVector(dx: 100, dy: 0))
+        self.player.physicsBody?.applyForce(CGVector(dx: 5, dy: 0))
+    }
+    
+    private func jumpRight(){
+        // move up 20
+        let jumpUpAction = SKAction.moveBy(x: 70, y: 250, duration: 0.5)
+        // move down 20
+        let jumpDownAction = SKAction.moveBy(x: 70, y: -250, duration: 0.5)
+        // sequence of move yup then down
+        let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+        
+        // make player run sequence
+        player.run(jumpSequence)
+    }
+    private func jumpLeft(){
+        // move up 20
+        let jumpUpAction = SKAction.moveBy(x: -70, y: 250, duration: 0.5)
+        // move down 20
+        let jumpDownAction = SKAction.moveBy(x: -70, y: -250, duration: 0.5)
+        // sequence of move yup then down
+        let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+        
+        // make player run sequence
+        player.run(jumpSequence)
     }
 }
 
