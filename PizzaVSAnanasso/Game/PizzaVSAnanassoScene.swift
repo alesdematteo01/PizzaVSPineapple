@@ -82,6 +82,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     var play = SKSpriteNode()
     var pause = SKSpriteNode()
+    var restart = SKSpriteNode()
     var status_game : Bool = false
     
     enum SideOfTheScreen {
@@ -96,7 +97,15 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
+    func restartGame(){
+        restart = SKSpriteNode(imageNamed: "restartButton")
+        restart.name = "restart"
+        restart.size = CGSize(width: 54, height: 54)
+        restart.position = CGPoint(x: Positioning.frameX.maxX - 40, y: Positioning.frameY.maxY - 45)
+        restart.zPosition = Layer.endSprite
+        
+        addChild(restart)
+    }
     
     func pause_game(){
         
@@ -151,6 +160,10 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
                     pause_game()
                     self.scene?.isPaused = false
                     play.removeFromParent()
+                } else if node.name == "restart" {
+                    let scene : SKScene = PizzaVSAnanassoScene(size: (self.view?.bounds.size)!)
+                    let transition: SKTransition = SKTransition.fade(withDuration: 1)
+                    self.view?.presentScene(scene, transition: transition)
                 }
             }
         }
@@ -187,7 +200,7 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     override func sceneDidLoad() {
         
         self.startGame()
-        self.stopWatchLabel()
+        self.stopwatchLabel()
         
         self.setUpPhysicsWorld()
         
@@ -205,14 +218,15 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.wait(forDuration: 3)])))
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 12.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
             self.run(SKAction.repeatForever(
                 SKAction.sequence([
                     SKAction.run(self.createBanana),
-                    SKAction.wait(forDuration: 12.0)])))
+                    SKAction.wait(forDuration: 7.0)])))
         })
         
         pause_game()
+        restartGame()
         
         music = SKAudioNode(fileNamed: "song.mp3")
         music.autoplayLooped = true
@@ -319,10 +333,6 @@ extension PizzaVSAnanassoScene {
         
         physicsWorld.contactDelegate = self
     }
-    
-    //    private func restartGame() {
-    ////        self.gameLogic.restartGame()
-    //    }
     
     private func setBackground() {
         backgroundImage.position = CGPoint(x: UIScreen.main.bounds.size.width/2, y: UIScreen.main.bounds.size.height/2)
@@ -523,7 +533,7 @@ extension PizzaVSAnanassoScene {
         lifeSprite1 = SKSpriteNode(imageNamed: "lifePoint1")
         lifeSprite1.name = "lifeSprite"
         lifeSprite1.zPosition = Layer.life
-        lifeSprite1.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 50)
+        lifeSprite1.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 100)
         lifeSprite1.size = CGSize(width: 32, height: 32)
         
         let animation = SKAction.animate(with: [life0, life1], timePerFrame: 0.2)
@@ -534,7 +544,7 @@ extension PizzaVSAnanassoScene {
         lifeSprite2 = SKSpriteNode(imageNamed: "lifePoint1")
         lifeSprite2.name = "lifeSprite2"
         lifeSprite2.zPosition = Layer.life
-        lifeSprite2.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 50)
+        lifeSprite2.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 100)
         lifeSprite2.size = CGSize(width: 32, height: 32)
         addChild(lifeSprite2)
         lifeSprite2.run(SKAction.repeatForever(animation))
@@ -543,7 +553,7 @@ extension PizzaVSAnanassoScene {
         lifeSprite3 = SKSpriteNode(imageNamed: "lifePoint1")
         lifeSprite3.name = "lifeSprite3"
         lifeSprite3.zPosition = Layer.life
-        lifeSprite3.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 50)
+        lifeSprite3.position = CGPoint(x: Positioning.frameX.midX + 125 + (CGFloat(i) * 60), y: Positioning.frameY.height - 100)
         lifeSprite3.size = CGSize(width: 32, height: 32)
         addChild(lifeSprite3)
         lifeSprite3.run(SKAction.repeatForever(animation))
@@ -568,11 +578,11 @@ extension PizzaVSAnanassoScene {
     
     private func jumpRight(){
         let animation = SKAction.animate(with: [pizzaRun3, pizzaRun2, pizzaRun1, pizzaJump], timePerFrame: 0.2)
-        // move up 20
+        // move up and right
         let jumpUpAction = SKAction.moveBy(x: 5, y: 15, duration: 0.2)
-        // move down 20
+        // move down and right
         let jumpDownAction = SKAction.moveBy(x: 5, y: -15, duration: 0.2)
-        // sequence of move yup then down
+        // sequence of move up then down while going right
         let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
         // make player run sequence
         player.run(jumpSequence)
@@ -581,11 +591,11 @@ extension PizzaVSAnanassoScene {
     }
     private func jumpLeft(){
         let animation = SKAction.animate(with: [pizzaRun3L, pizzaRun2L, pizzaRun1L, pizzaJumpL], timePerFrame: 0.2)
-        // move up 20
+        // move up and left
         let jumpUpAction = SKAction.moveBy(x: -5, y: 15, duration: 0.2)
-        // move down 20
+        // move down and left
         let jumpDownAction = SKAction.moveBy(x: -5, y: -15, duration: 0.2)
-        // sequence of move yup then down
+        // sequence of move up then down while going left
         let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
         
         // make player run sequence
@@ -629,13 +639,6 @@ extension PizzaVSAnanassoScene {
         endLabel.colorBlendFactor = 1
         addChild(endLabel)
         
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
-            let scene : SKScene = PizzaVSAnanassoScene(size: (self.view?.bounds.size)!)
-            let transition: SKTransition = SKTransition.fade(withDuration: 1)
-            self.view?.presentScene(scene, transition: transition)
-            self.lifeCounter = 3
-        })
     }
     
     private func gameWin() {
@@ -671,12 +674,6 @@ extension PizzaVSAnanassoScene {
         endLabel.colorBlendFactor = 1
         addChild(endLabel)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
-            let scene : SKScene = PizzaVSAnanassoScene(size: (self.view?.bounds.size)!)
-            let transition: SKTransition = SKTransition.fade(withDuration: 1)
-            self.view?.presentScene(scene, transition: transition)
-            
-        })
     }
 }
 
@@ -743,14 +740,10 @@ extension PizzaVSAnanassoScene {
     }
     
     func timeString(time:TimeInterval) -> String {
-        //        let minutes = Int(time) / 60 % 60
-        //        let seconds = Int(time) % 60
-        //        let milliseconds = Int(time) % 60 / 60
-        //        return String(format:"%02i:%02i.%02i", minutes, seconds, milliseconds)
         let hours = Int(time) / 3600
         let minutes = Int(time) / 60 % 60
-        let seconds = Int(time) % 60
-        return String(format:"%02i:%02i.%02i", hours, minutes, seconds)
+        let second = Int(time) % 60
+        return String(format:"%02i:%02i.%02i", hours, minutes, second)
     }
     
     
@@ -759,7 +752,7 @@ extension PizzaVSAnanassoScene {
         removeAction(forKey: "timer")
     }
     
-    func stopWatchLabel() {
+    func stopwatchLabel() {
         activeTimer.name = "activeTimer"
         activeTimer = SKLabelNode(fontNamed: "Snes")
         activeTimer.fontSize = 30
