@@ -21,26 +21,21 @@ struct ContentView: View {
     @State var currentGameState: GameState = .playing
     
     // The game logic is a singleton object shared among the different views of the application
-//    @StateObject var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
+    //    @StateObject var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic()
     
     
     var body: some View {
-
+        
         switch currentGameState {
         case .mainScreen:
-//            MainScreenView(currentGameState: $currentGameState)
-//                .environmentObject(gameLogic)
-            Text("gfer")
-        
+            Text("main screen")
         case .playing:
-            PizzaVSAnanassoView(currentGameState: $currentGameState)
-                
-//                .environmentObject(gameLogic)
-        
+            PizzaVSAnanassoView(currentGameState: $currentGameState).onAppear {
+                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+                AppDelegate.orientationLock = .portrait
+            }
         case .gameOver:
-//            GameOverView(currentGameState: $currentGameState)
-//                .environmentObject(gameLogic)
-            Text("fe")
+            Text("game over")
         }
     }
 }
