@@ -10,10 +10,18 @@ import SwiftUI
 
 class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
+    //    stopwatch
+    var seconds = 0
+    var timer = Timer()
+    var timeStarted = Bool()
+    var activeTimer = SKLabelNode()
+    
     var music = SKAudioNode()
     var backgroundEnd = SKSpriteNode()
     var endingSprite = SKSpriteNode()
     var endLabel = SKLabelNode()
+    
+    var isWinning : Bool = false
     
     var gameLogic: PizzaVSAnanassoGameLogic = PizzaVSAnanassoGameLogic.shared
     
@@ -55,6 +63,9 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     let pizzaRun1L = SKTexture(imageNamed: "pizzaRun0L")
     let pizzaRun2L = SKTexture(imageNamed: "pizzaRun1L")
     let pizzaRun3L = SKTexture(imageNamed: "pizzaRun2L")
+    
+    let pizzaWin1 = SKTexture(imageNamed: "victory0")
+    let pizzaWin2 = SKTexture(imageNamed: "victory1")
     
     var isMovingToTheRight: Bool = false
     var isMovingToTheLeft: Bool = false
@@ -175,6 +186,9 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
     
     override func sceneDidLoad() {
         
+        self.startGame()
+        self.stopWatchLabel()
+        
         self.setUpPhysicsWorld()
         
         self.setBackground()
@@ -239,11 +253,16 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         } else if firstBody.node!.name == "player" && secondBody.node!.name == "enemy" {
             print("win")
             //            game win
-            self.gameWin()
+            if isWinning == false {
+                isWinning = true
+                self.gameWin()
+            }
         } else if firstBody.node!.name == "enemy" && secondBody.node!.name == "player" {
             print("win")
-            //            game win
-            self.gameWin()
+            if isWinning == false {
+                isWinning = true
+                self.gameWin()
+            }
         } else if firstBody.node!.name == "ananas" && secondBody.node!.name == "tagliere0" {
             firstBody.node!.removeFromParent()
         } else if firstBody.node!.name == "tagliere0" && secondBody.node!.name == "ananas" {
@@ -282,6 +301,9 @@ class PizzaVSAnanassoScene: SKScene, SKPhysicsContactDelegate {
         }
         if isMovingToTheRight {
             self.jumpRight()
+        }
+        if timeStarted {
+            updateTimer()
         }
     }
 }
@@ -576,6 +598,7 @@ extension PizzaVSAnanassoScene {
 // MARK: Game Over and Game Win Condition
 extension PizzaVSAnanassoScene {
     private func gameOver() {
+        self.stopGameTimer()
         self.scene?.isPaused = true
         pause.removeFromParent()
         
@@ -616,6 +639,9 @@ extension PizzaVSAnanassoScene {
     }
     
     private func gameWin() {
+        activeTimer.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.midY - 250)
+        activeTimer.fontSize = 100
+        self.stopGameTimer()
         self.scene?.isPaused = true
         pause.removeFromParent()
         
@@ -627,11 +653,13 @@ extension PizzaVSAnanassoScene {
         backgroundEnd.alpha = 0.5
         addChild(backgroundEnd)
         
+        let animation = SKAction.animate(with: [pizzaWin1, pizzaWin2], timePerFrame: 0.2)
+        endingSprite = SKSpriteNode(imageNamed: "victory0")
         endingSprite.name = "endingSprite"
         endingSprite.zPosition = Layer.endSprite
-        //        endingSprite.size = CGSize(width: <#T##CGFloat#>, height: <#T##CGFloat#>)
-        endingSprite.position = CGPoint(x: frame.minX, y: frame.minY)
+        endingSprite.position = CGPoint(x: Positioning.frameY.midX, y: Positioning.frameY.midY+50)
         addChild(endingSprite)
+        endingSprite.run(SKAction.repeatForever(animation))
         
         endLabel.name = "endLabel"
         endLabel = SKLabelNode(fontNamed: "Snes")
@@ -686,3 +714,62 @@ extension PizzaVSAnanassoScene {
         addChild(banana)
     }
 }
+
+// MARK: Stopwatch
+
+extension PizzaVSAnanassoScene {
+    
+    
+    func startGame() {
+        
+        startGameTimer()
+        timeStarted = true
+    }
+    
+    func resetGame() {
+        
+        timeStarted = false
+        stopGameTimer()
+        seconds = 0
+    }
+    
+    func startGameTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimer() {
+        seconds += 1
+        activeTimer.text = timeString(time: TimeInterval(seconds))
+    }
+    
+    func timeString(time:TimeInterval) -> String {
+        //        let minutes = Int(time) / 60 % 60
+        //        let seconds = Int(time) % 60
+        //        let milliseconds = Int(time) % 60 / 60
+        //        return String(format:"%02i:%02i.%02i", minutes, seconds, milliseconds)
+        let hours = Int(time) / 3600
+        let minutes = Int(time) / 60 % 60
+        let seconds = Int(time) % 60
+        return String(format:"%02i:%02i.%02i", hours, minutes, seconds)
+    }
+    
+    
+    func stopGameTimer() {
+        timer.invalidate()
+        removeAction(forKey: "timer")
+    }
+    
+    func stopWatchLabel() {
+        activeTimer.name = "activeTimer"
+        activeTimer = SKLabelNode(fontNamed: "Snes")
+        activeTimer.fontSize = 30
+        activeTimer.position = CGPoint(x: Positioning.frameX.midX, y: Positioning.frameY.height - 65)
+        activeTimer.zPosition = Layer.endSprite
+        activeTimer.color = SKColor.red
+        activeTimer.colorBlendFactor = 1
+        addChild(activeTimer)
+    }
+    
+}
+
+
