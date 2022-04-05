@@ -13,6 +13,7 @@ Our game is composed by this elements on the screen :
 - Restart button : to restart the game 
 - Music and sounds to give feedback to the player 
 - Tomato : indicate life points
+- Pizza cutter : useful for give the chance to jump on it and reach the evil chef.
 
 *This application has been made in SpriteKit framework, supported by SwiftUI, to improve our game development skills and approaching the collision system.
 We decided to focus on how improve our management of the physics offered by this framework.*
